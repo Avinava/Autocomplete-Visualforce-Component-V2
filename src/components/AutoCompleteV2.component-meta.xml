@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexComponent xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>28.0</apiVersion>
+    <description>All new visualforce autocomplete component</description>
+    <label>AutoCompleteV2</label>
+</ApexComponent>

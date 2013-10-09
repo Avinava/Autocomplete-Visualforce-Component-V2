@@ -1,0 +1,25 @@
+<apex:component selfClosing="true">
+    <apex:attribute name="right" description="right" type="Integer" default="0"/>
+    <apex:attribute name="top" description="top" type="Integer" default="0"/>
+    <apex:Attribute name="importCSS" description="import CSS" type="boolean" default="true"/>
+    
+    <apex:outputPanel rendered="{!importCSS}">
+        <apex:stylesheet value="{!URLFOR($Resource.jQuery_UI_1_10_2, 'css/ui-lightness/jquery-ui-1.10.2.custom.min.css')}"/>
+    </apex:outputPanel>
+    <div class="ui-corner-bottom ui-state-highlight ui-state-default" style="padding:5px;position:absolute;right:{!right}px;top:{!top}px;">
+       <a target="_blank" href="http://blogforce9dev-developer-edition.ap1.force.com/ProjectGallery">See All Other Demos</a>
+    </div>
+    <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37572722-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</apex:component>

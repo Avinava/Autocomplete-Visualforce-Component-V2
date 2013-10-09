@@ -1,0 +1,36 @@
+<apex:page controller="AutocompleteV2Demo_con" tabStyle="Account" sidebar="false">
+    <apex:sectionHeader title="Autocomplete V2" subtitle="All new autocomplete plugin for visualforce pages"/>
+    <c:AllDemoLink />
+    <apex:panelGrid style="padding:4px;margin-bottom:10px;border-radius:5px" columns="1" bgcolor="#DCFBDC" width="100%" >
+        
+        <ul>
+            <li>AutocompleteV2 is faster than V1 and can handle much more data</li>
+            <li>Uses Jquery remoting to fetch the data</li>           
+            <li>The new Select2 theme</li>
+            <li>More flexible with lot more config option available for developer to set</li>
+            <li>Supports multiple components on a single page</li>
+            <li>No more conflict with existing Jquery that is already refrenced in VF page. You can set importJquery="false" and let the component use your defaul jquery from the VF page</li>
+            
+        </ul>
+    </apex:panelGrid>
+    <apex:form >
+        <apex:pageBlock id="pb" title="Autocomplete V2">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Submit" reRender="pb" style="width:100px"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection columns="1" title="Autocomplete Section" collapsible="false">
+                <apex:pageBlockSectionItem helpText="Search for Account, Try typing 'A' and press the submit button to get the value">
+                    <apex:outputLabel >Search Account</apex:outputLabel>
+                    <c:AutoCompleteV2 allowClear="true" importJquery="true" labelField="Name" SObject="Account" valueField="Id" targetField="{!targetField}" style="width:200px"/>
+                </apex:pageBlockSectionItem>
+                
+            </apex:pageBlockSection>
+            <apex:pageBlockSection columns="1" title="Once Submitted Value Will Appear Below" collapsible="false">
+                <apex:pageBlockSectionItem helpText="Once you Press the SUBMIT button after selecting a Account the Account Id will appear below">
+                    <apex:outputLabel >Selected Account Id</apex:outputLabel>
+                    <apex:inputText value="{!targetField}" disabled="true" style="width:200px!important"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

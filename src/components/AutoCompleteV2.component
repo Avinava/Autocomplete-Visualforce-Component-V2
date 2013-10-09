@@ -1,0 +1,166 @@
+<!--
+Copyright (c) 2013 avidev9@gmail.com
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. The name of the author may not be used to endorse or promote products
+   derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, 
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<apex:component controller="AutoCompleteV2_Con" selfClosing="true">
+    <apex:attribute name="SObject" description="SOQL Object to query"
+        type="String" assignTo="{!sObjVal}" required="true" />
+    <apex:attribute name="labelField"
+        description="API Name of Field to display for label" type="String"
+        required="true" />
+    <apex:attribute name="valueField"
+        description="API Name of Field to display for value that is passed to the targetField"
+        type="String" required="true" />
+    <apex:attribute name="targetField"
+        description="Field of current object that will hold the selection."
+        type="Object" assignTo="{!targetFieldVar}"/>
+    <apex:attribute name="inputFieldId"
+        description="Id of the field where the value will copied[Not generally required, used when you need to copy value to a field using js]"
+        type="String" />
+     <apex:attribute name="importJquery"
+        description="Assign false if you dont want to jquery files"
+        type="Boolean" default="true" />
+    <apex:attribute name="syncManualEntry"
+        description="Allow manual entry of data from autocomplete component."
+        type="Boolean" default="true" />
+    <apex:attribute name="allowClear" description="Set true to give user a option to clear existing value" type="Boolean" default="true"/>
+        
+    <apex:attribute name="Style" description="style for the input component" type="String"/>
+    <!--Required js files-->
+    <apex:outputPanel rendered="{!importJquery}">
+        <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"/>
+    </apex:outputPanel>
+        <apex:includeScript value="{!URLFOR($Resource.select2, 'select2-3.4.2/select2.js')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.select2, 'select2-3.4.2/select2.css')}"/>
+    <script>
+        var v2{!randomJsIden}
+       
+        var prevVal{!randomJsIden};
+        function autocompleteV2{!randomJsIden}(){
+             var v2=this;
+             jQuery(function($){ //on document.ready
+                    v2.init($)
+             });
+        }
+        
+        autocompleteV2{!randomJsIden}.prototype={
+            init : function($){
+          
+                       var $elem = $( ".auto{!randomJsIden}" ).select2({
+                           minimumInputLength: 1,
+                           placeholder: "No value selected",
+                           allowClear : {!allowClear},
+                           query: function (query) {
+                               queryData{!randomJsIden}(query);
+                               
+                           }
+                       });
+                       
+                       $elem.on("select2-selecting", function(e) {
+                         
+                           $('.hiddenField{!randomJsIden}').val(e.val);
+                       });
+                       
+                       $elem.on("select2-removed", function(e) {
+                           $('.hiddenField{!randomJsIden}').val('');
+                       });
+                       
+                       if('{!cacheField}' !=''){
+                           $elem.select2("data", {id: "{!targetFieldVar}", text: "{!cacheField}"})  
+                       }  
+                      
+                    },
+                    
+            triggerSearch :function(val){
+                                
+                                if(prevVal{!randomJsIden} != val){
+                                    $=jQuery;
+                                    prevVal{!randomJsIden} = val;
+                                    var select = $('input.auto{!randomJsIden}');          
+                                    var search = $('.select2-input')
+                                    select.select2('open');
+                                    search.val(val);
+                                    
+                                    search.trigger("input");
+                                }
+                            },
+                            
+           autoCompleteChange: function(elem){
+                                $=jQuery;
+                                if({!syncManualEntry} == true){
+                                    $('.hiddenField{!randomJsIden}').val($j(elem).val());
+                                   
+                                }
+                                else{
+                                     if(elem.val == ''){
+                                        $('[id$="{!inputFieldId}"]').val('');
+                                        $('.hiddenField{!randomJsIden}').val('');
+                                     }
+                                     
+                                }
+                            }      
+        }
+        
+        
+        
+        
+        
+         /*
+        *This method queries data according to the passed parameter
+        *and populates the combobox accordingly
+        ***/    
+        function queryData{!randomJsIden}(query){
+          
+           Visualforce.remoting.Manager.invokeAction(
+                     '{!$RemoteAction.AutoCompleteV2_Con.getData}','{!sObjVal}','{!labelField}','{!valueField}',query.term,
+                     function(result, event){
+                          
+                         //if success
+                         if(event.status){ 
+                             var data = {results: []}
+                             data.results = result;                            
+                             query.callback( data);                           
+                         }
+                         else{
+                              alert('Invalid Field/Object API Name : '+event.message);
+                         }
+                        
+                     }, 
+                      {escape: true}
+                );
+            }  
+              
+           
+    </script>
+    
+    <apex:inputText style="{!Style}" styleClass="auto{!randomJsIden}" value="{!cacheField}" onchange="v2{!randomJsIden}.autoCompleteChange(this)"/>
+ 
+    <apex:outputPanel id="hiddenPanel">
+        <apex:inputText value="{!targetField}" id="hiddenField"
+            styleClass="hiddenField{!randomJsIden}" style="display:none"/>
+    </apex:outputPanel>
+    <script>v2{!randomJsIden} = new autocompleteV2{!randomJsIden}({});</script>
+</apex:component>

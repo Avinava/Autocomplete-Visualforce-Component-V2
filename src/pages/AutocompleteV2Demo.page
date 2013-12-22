@@ -1,6 +1,6 @@
 <apex:page controller="AutocompleteV2Demo_con" tabStyle="Account" sidebar="false">
     <apex:sectionHeader title="Autocomplete V2" subtitle="All new autocomplete plugin for visualforce pages"/>
-    <c:AllDemoLink />
+   
     <apex:panelGrid style="padding:4px;margin-bottom:10px;border-radius:5px" columns="1" bgcolor="#DCFBDC" width="100%" >
         
         <ul>

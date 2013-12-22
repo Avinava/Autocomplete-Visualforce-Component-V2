@@ -76,7 +76,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                            query: function (query) {
                                queryData{!randomJsIden}(query);
                                
-                           }
+                           },
+                           createSearchChoice:function(term, data) {
+                                if({!syncManualEntry} == true){
+                                    return {id:term, text:term};
+                                }
+                            }
                        });
                        
                        $elem.on("select2-selecting", function(e) {
@@ -87,6 +92,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                        $elem.on("select2-removed", function(e) {
                            $('.hiddenField{!randomJsIden}').val('');
                        });
+                       
+                      
                        
                        if('{!cacheField}' !=''){
                            $elem.select2("data", {id: "{!targetFieldVar}", text: "{!cacheField}"})  
@@ -106,22 +113,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                                     
                                     search.trigger("input");
                                 }
-                            },
-                            
-           autoCompleteChange: function(elem){
-                                $=jQuery;
-                                if({!syncManualEntry} == true){
-                                    $('.hiddenField{!randomJsIden}').val($j(elem).val());
-                                   
-                                }
-                                else{
-                                     if(elem.val == ''){
-                                        $('[id$="{!inputFieldId}"]').val('');
-                                        $('.hiddenField{!randomJsIden}').val('');
-                                     }
-                                     
-                                }
-                            }      
+                            }
         }
         
         
@@ -156,7 +148,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
            
     </script>
     
-    <apex:inputText style="{!Style}" styleClass="auto{!randomJsIden}" value="{!cacheField}" onchange="v2{!randomJsIden}.autoCompleteChange(this)"/>
+    <apex:inputText style="{!Style}" styleClass="auto{!randomJsIden}" value="{!cacheField}" />
  
     <apex:outputPanel id="hiddenPanel">
         <apex:inputText value="{!targetField}" id="hiddenField"

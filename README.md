@@ -30,10 +30,7 @@ Description
 
 > In addition to this a Visualforce Page "AutocompleteV2Demo" is included in package. This page searches through different accounts that are available in the Org. Have a look at the same for syntax and implementation
 
-Demo
+Demo / Installation
 -
-http://blogforce9dev-developer-edition.ap1.force.com/AutocompleteV2Demo 
 
-Installation
--
-https://login.salesforce.com/packaging/installPackage.apexp?p0=04t90000000MeZh
+http://blogforce9dev-developer-edition.ap1.force.com/ProjectDetail?id=a0290000009KusM

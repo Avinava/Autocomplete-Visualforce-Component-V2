@@ -30,10 +30,10 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         type="String" assignTo="{!sObjVal}" required="true" />
     <apex:attribute name="labelField"
         description="API Name of Field to display for label" type="String"
-        required="true" />
+        required="true" assignTo="{!labelFieldVar}"/>
     <apex:attribute name="valueField"
         description="API Name of Field to display for value that is passed to the targetField"
-        type="String" required="true" />
+        type="String" required="true" assignTo="{!valueFieldVar}"/>
     <apex:attribute name="targetField"
         description="Field of current object that will hold the selection."
         type="Object" assignTo="{!targetFieldVar}"/>
@@ -127,7 +127,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         function queryData{!randomJsIden}(query){
           
            Visualforce.remoting.Manager.invokeAction(
-                     '{!$RemoteAction.AutoCompleteV2_Con.getData}','{!sObjVal}','{!labelField}','{!valueField}',query.term,
+                     '{!$RemoteAction.AutoCompleteV2_Con.getData}','{!sObjVal}','{!labelFieldVar}','{!valueFieldVar}',query.term,
                      function(result, event){
                           
                          //if success

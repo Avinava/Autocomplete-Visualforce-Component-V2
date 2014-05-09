@@ -33,8 +33,8 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 **/
 public class AutoCompleteV2_Con {
 
-    public String labelField{ get; set; }
-    public String valueField{ get; set; }
+    public String labelFieldVar{ get; set; }
+    public String valueFieldVar{ get; set; }
     public String sObjVal{get;set;}
     public Integer randomJsIden{get;set;}
     public Object cacheField{get;private set;} 
@@ -44,8 +44,8 @@ public class AutoCompleteV2_Con {
     public AutoCompleteV2_Con(){
         randomJsIden = getRandomNumber(1000000);
         sObjVal='Account';
-        labelField='Name';
-        valueField='Id';
+        labelFieldVar='Name';
+        valueFieldVar='Id';
     }
     
     /*Dummy setter Method*/
@@ -68,8 +68,8 @@ public class AutoCompleteV2_Con {
     private Object getCacheFieldValue(Object targetFieldVar){
         Object retVal = targetFieldVar;
         if(targetFieldVar!=null){
-            for(sObject sObj : Database.query('SELECT '+valueField+','+labelField+' FROM '+sObjVal+' WHERE '+valueField+' =:targetFieldVar')){
-                retVal = sObj.get(labelField);
+            for(sObject sObj : Database.query('SELECT '+valueFieldVar+','+labelFieldVar+' FROM '+sObjVal+' WHERE '+valueFieldVar+' =:targetFieldVar')){
+                retVal = sObj.get(labelFieldVar);
                 break;
             }
         }
@@ -90,12 +90,12 @@ public class AutoCompleteV2_Con {
     *This method queries data according to the passed parameters
     ***/
     @RemoteAction
-    public static List<AutoCompleteData> getData(String sObjVal,String labelField,String valueField,String param){
+    public static List<AutoCompleteData> getData(String sObjVal,String labelFieldVar,String valueFieldVar,String param){
        
         List<AutoCompleteData> AutoCompleteDatas = new List<AutoCompleteData>();
         param = String.escapeSingleQuotes(param);
-        for( Sobject sObj : Database.query('SELECT '+valueField+','+labelField+' FROM '+sObjVal+' WHERE '+labelField+' LIKE \'%'+param+'%\'')){
-            AutoCompleteDatas.add(new AutoCompleteData(sObj.get(valueField),sObj.get(labelField)));
+        for( Sobject sObj : Database.query('SELECT '+valueFieldVar+','+labelFieldVar+' FROM '+sObjVal+' WHERE '+labelFieldVar+' LIKE \'%'+param+'%\'')){
+            AutoCompleteDatas.add(new AutoCompleteData(sObj.get(valueFieldVar),sObj.get(labelFieldVar)));
         }
         
         return AutoCompleteDatas;

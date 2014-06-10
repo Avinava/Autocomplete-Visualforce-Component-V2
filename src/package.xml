@@ -18,7 +18,6 @@
         <name>ApexPage</name>
     </types>
     <types>
-        <members>jQuery_UI_1_10_2</members>
         <members>select2</members>
         <name>StaticResource</name>
     </types>

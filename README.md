@@ -1,5 +1,9 @@
 Autocomplete-Visualforce-Component-V2
 =====================================
+<a href="https://githubsfdeploy.herokuapp.com?owner=avinava&repo=Autocomplete-Visualforce-Component-V2">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/src/main/webapp/resources/img/deploy.png">
+</a>
 
 All New V2 version of Visualforce Autocomplete Component
 

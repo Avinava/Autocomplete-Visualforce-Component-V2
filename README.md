@@ -20,7 +20,7 @@ Complete new UI
 How to Use ?
 -
 ```
-<c:AutoCompleteV2 allowClear="true" importJquery="true" labelField="Name" SObject="Account" valueField="Id" targetField="{!targetField}" style="width:200px"/>  
+<c:AutoCompleteV2 allowClear="true" importJquery="true" labelField="Name" SObject="Account" valueField="Id" targetField="{!targetField}" whereClause=" Name AnnualRevenue > 100" style="width:200px"/>  
 ```
 Description
 -
@@ -31,6 +31,7 @@ Description
 * importJquery : Assign false if you dont want to jquery files from package.
 * syncManualEntry : Allow manual entry of data from autocomplete component. So if a matching value is not found for the entered query string, on page submit the same value will be sibmitted to targefield
 * allowClear : Set true to give user a option to clear existing value. If this value is set true user will see a small cross Icon to clear the existing value from the field
+* whereClause : Lets you add a WhereClause to the record/lookup search
 
 > In addition to this a Visualforce Page "AutocompleteV2Demo" is included in package. This page searches through different accounts that are available in the Org. Have a look at the same for syntax and implementation
 

@@ -60,96 +60,77 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <apex:includeScript value="{!URLFOR($Resource.select2, 'select2-3.4.2/select2.js')}"/>
         <apex:stylesheet value="{!URLFOR($Resource.select2, 'select2-3.4.2/select2.css')}"/>
     <script>
-        var v2{!randomJsIden}
-       
+        var v2{!randomJsIden};
         var prevVal{!randomJsIden};
         function autocompleteV2{!randomJsIden}(){
-             var v2=this;
-             jQuery(function($){ //on document.ready
-                    v2.init($)
-             });
+          var v2=this;
+          jQuery(function($){
+              v2.init($)
+          });
         }
         
         autocompleteV2{!randomJsIden}.prototype={
-            init : function($){
-          
-                       var $elem = $( ".auto{!randomJsIden}" ).select2({
-                           minimumInputLength: 1,
-                           placeholder: "No value selected",
-                           allowClear : {!allowClear},
-                           query: function (query) {
-                               queryData{!randomJsIden}(query);
-                               
-                           },
-                           createSearchChoice:function(term, data) {
-                                if({!syncManualEntry} == true){
-                                    return {id:term, text:term};
-                                }
-                            }
-                       });
-                       
-                       $elem.on("select2-selecting", function(e) {
-                         
-                           $('.hiddenField{!randomJsIden}').val(e.val);
-                       });
-                       
-                       $elem.on("select2-removed", function(e) {
-                           $('.hiddenField{!randomJsIden}').val('');
-                       });
-                       
-                      
-                       
-                       if('{!cacheField}' !=''){
-                           $elem.select2("data", {id: "{!targetFieldVar}", text: "{!cacheField}"})  
-                       }  
-                      
-                    },
+          init : function($){
+            var $elem = $( ".auto{!randomJsIden}" ).select2({
+              minimumInputLength: 1,
+              placeholder: "No value selected",
+              allowClear : {!allowClear},
+              query: function (query) {
+                queryData{!randomJsIden}(query);
+              },
+              createSearchChoice:function(term, data) {
+                if({!syncManualEntry} == true){
+                  return {id:term, text:term};
+                }
+              }
+            });
+
+            $elem.on("select2-selecting", function(e) {
+              $('.hiddenField{!randomJsIden}').val(e.val);
+            });
+
+            $elem.on("select2-removed", function(e) {
+              $('.hiddenField{!randomJsIden}').val('');
+            });
+            if('{!cacheField}' !=''){
+              $elem.select2("data", {id: "{!targetFieldVar}", text: "{!cacheField}"})  
+            }  
+          },
                     
-            triggerSearch :function(val){
-                                
-                                if(prevVal{!randomJsIden} != val){
-                                    $=jQuery;
-                                    prevVal{!randomJsIden} = val;
-                                    var select = $('input.auto{!randomJsIden}');          
-                                    var search = $('.select2-input')
-                                    select.select2('open');
-                                    search.val(val);
-                                    
-                                    search.trigger("input");
-                                }
-                            }
+          triggerSearch :function(val){
+            if(prevVal{!randomJsIden} != val){
+              $=jQuery;
+              prevVal{!randomJsIden} = val;
+              var select = $('input.auto{!randomJsIden}');          
+              var search = $('.select2-input')
+              select.select2('open');
+              search.val(val);
+              search.trigger("input");
+            }
+          }
         }
-        
-        
-        
-        
-        
+
          /*
         *This method queries data according to the passed parameter
         *and populates the combobox accordingly
         ***/    
         function queryData{!randomJsIden}(query){
-          
-           Visualforce.remoting.Manager.invokeAction(
-                     '{!$RemoteAction.AutoCompleteV2_Con.getData}','{!sObjVal}','{!labelFieldVar}','{!valueFieldVar}',"{!whereClause}",query.term,
-                     function(result, event){
-                          
-                         //if success
-                         if(event.status){ 
-                             var data = {results: []}
-                             data.results = result;                            
-                             query.callback( data);                           
-                         }
-                         else{
-                              alert('Invalid Field/Object API Name : '+event.message);
-                         }
-                        
-                     }, 
-                      {escape: true}
-                );
-            }  
-              
-           
+          Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.AutoCompleteV2_Con.getData}','{!sObjVal}','{!labelFieldVar}','{!valueFieldVar}',"{!whereClause}",query.term,
+            function(result, event){
+              //if success
+              if(event.status){ 
+                var data = {results: []}
+                data.results = result;                            
+                query.callback( data);                           
+              }
+              else{
+                alert('Invalid Field/Object API Name : '+event.message);
+              }
+            }, 
+            {escape: true}
+          );
+        }         
     </script>
     
     <apex:inputText style="{!Style}" styleClass="auto{!randomJsIden}" value="{!cacheField}" />

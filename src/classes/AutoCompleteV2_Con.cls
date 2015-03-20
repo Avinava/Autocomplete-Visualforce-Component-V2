@@ -90,27 +90,15 @@ public class AutoCompleteV2_Con {
     *This method queries data according to the passed parameters
     ***/
     @RemoteAction
-    public static List<AutoCompleteData> getData(String sObjVal,String labelFieldVar,String valueFieldVar,String param){
-       
-        List<AutoCompleteData> AutoCompleteDatas = new List<AutoCompleteData>();
+    public static List<Map<String,String>> getData(String sObjVal,String labelFieldVar,String valueFieldVar,String whereClauseVar,String param){      
+        List<Map<String,String>> responses = new List<Map<String,String>>();
         param = String.escapeSingleQuotes(param);
-        for( Sobject sObj : Database.query('SELECT '+valueFieldVar+','+labelFieldVar+' FROM '+sObjVal+' WHERE '+labelFieldVar+' LIKE \'%'+param+'%\'')){
-            AutoCompleteDatas.add(new AutoCompleteData(sObj.get(valueFieldVar),sObj.get(labelFieldVar)));
+        for( Sobject sObj : Database.query('SELECT '+valueFieldVar+','+labelFieldVar+' FROM '+sObjVal+' WHERE '+labelFieldVar+' LIKE \'%'+param+'%\''+(String.isNotBlank(whereClauseVar) ? ' AND '+whereClauseVar : ''))){
+            responses.add(new Map<String,String>{
+            	'id' => String.valueOf(sObj.get(valueFieldVar)),
+            	'text' => String.valueOf(sObj.get(labelFieldVar))
+            });
         }
-        
-        return AutoCompleteDatas;
-        
-    }
-    
-    public class AutoCompleteData{
-        public String id;
-        public String text;
-        
-        public AutoCompleteData(Object id, Object text){
-            this.id = String.valueOf(id);
-            this.text = String.valueOf(text);
-        }
-    }
-
-    
+        return responses;
+    }  
 }

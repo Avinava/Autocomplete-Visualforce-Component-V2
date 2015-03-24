@@ -36,9 +36,9 @@ private class AutocompleteV2_Con_Test{
         //insert test records
         insert accountList;
         Test.startTest();
-            System.assertEquals(accountList.size(),AutoCompleteV2_Con.getData('Account','Name','Id','T').size());
-            System.assertEquals(1, AutoCompleteV2_Con.getData('Account','Name','Id','Test111').size());
-            System.assertEquals(0, AutoCompleteV2_Con.getData('Account','Name','Id','xxxxxxx').size());
+            System.assertEquals(accountList.size(),AutoCompleteV2_Con.getData('Account','Name','Id','','T').size());
+            System.assertEquals(1, AutoCompleteV2_Con.getData('Account','Name','Id','','Test111').size());
+            System.assertEquals(0, AutoCompleteV2_Con.getData('Account','Name','Id','','xxxxxxx').size());
             AutoCompleteV2_Con controller = new AutoCompleteV2_Con ();
             controller.setTargetFieldVar(accountList[0].Id);
             System.assertEquals(accountList[0].Id,controller.getTargetFieldVar());

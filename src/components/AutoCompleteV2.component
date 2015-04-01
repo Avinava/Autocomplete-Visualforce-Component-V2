@@ -92,7 +92,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             $elem.on("select2-removed", function(e) {
               $('.hiddenField{!randomJsIden}').val('');
             });
-            if('{!cacheField}' !=''){
+            if({!cacheField !=''}){
               $elem.select2("data", {id: "{!targetFieldVar}", text: "{!cacheField}"})  
             }  
           },
@@ -128,7 +128,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 alert('Invalid Field/Object API Name : '+event.message);
               }
             }, 
-            {escape: true}
+            {escape: false}
           );
         }         
     </script>

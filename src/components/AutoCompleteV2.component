@@ -51,6 +51,9 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <apex:attribute name="whereClause"
         description="Add where clause to the search"
         type="String" />
+    <apex:attribute name="onChange"
+        description="JS method to be invoked when the value changes"
+        type="String" />
         
     <apex:attribute name="Style" description="style for the input component" type="String"/>
     <!--Required js files-->
@@ -92,6 +95,11 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             $elem.on("select2-removed", function(e) {
               $('.hiddenField{!randomJsIden}').val('');
             });
+
+            if({!NOT(ISNULL(onChange))}){
+                $elem.on("select2-selecting",{!onChange});
+            }
+
             if({!cacheField !=''}){
               $elem.select2("data", {id: "{!targetFieldVar}", text: "{!cacheField}"})  
             }  
